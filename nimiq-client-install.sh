@@ -1,9 +1,12 @@
 #!/bin/bash
 ################################################################################
-# Author:  Bhlynd
+# Author:  Bhlynd _& JC
 # Program: Install Nimiq on Ubuntu
 # Flavor: Porky Pool (https://www.porkypool.com)
 ################################################################################
+INSTALL_LOG="/nimiq/install.log"
+exec 3>&1 1>>${INSTALL_LOG} 2>&1
+
 output() {
   printf "\E[0;33;40m"
   echo $1
@@ -23,7 +26,7 @@ if [ ! -f $LOG_FILE ]; then
 
   sudo adduser nimiq --gecos "First Last,RoomNumber,WorkPhone,HomePhone" --disabled-password
   echo "nimiq:v872nfhfSfhv72gfFstf-" | sudo chpasswd
-  usermod -aG sudo nimiq
+  sudo usermod -aG sudo nimiq
   su - nimiq
   
   IS_ROOT=false
@@ -41,8 +44,9 @@ if [ ! -f $LOG_FILE ]; then
   EXTRADATA=$HOSTNAME
   STATISTICS=15
 
-  sudo mkdir /nimiq
+  mkdir /nimiq
   cd /nimiq
+  chown nimiq:nimiq /nimiq
 
   output " "
   output "Making sure everything is up to date."
@@ -82,7 +86,7 @@ if [ ! -f $LOG_FILE ]; then
 
   cd core
   if [ IS_ROOT == true ]; then
-    npm install --unsafe-perm
+    su - nimiq -c "npm install"
   else
     npm install
   fi
@@ -137,5 +141,6 @@ if [ ! -f $LOG_FILE ]; then
   output "Starting nimiq"
   output " "
 
-  /nimiq/start > /nimiq/log.txt
+  sudo chown nimiq:nimiq /nimiq -R
+  su - nimiq -c "/nimiq/start > /nimiq/log.txt"
 fi
