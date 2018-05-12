@@ -26,7 +26,7 @@ chown nimiq:nimiq /nimiq
 sudo usermod -aG sudo nimiq
 cd /nimiq
 
-POOL=us-east.porkypool.com:8444
+POOL=us-west.porkypool.com:8444
 THREADS=$(getconf _NPROCESSORS_ONLN)
 WALLET="NQ73 LLJ3 YC4T 4N64 TPEM S6RF J3L4 0GRR 5U12"
 EXTRADATA=$HOSTNAME
