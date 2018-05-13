@@ -17,8 +17,8 @@ displayErr() {
   exit 1;
 }
 
-sudo mkdir /nimiq
-cd /nimiq
+mkdir $HOME/nimiq
+cd $HOME/nimiq
 
 IS_ROOT=false
 if [ "$EUID" -eq 0 ]; then
@@ -135,7 +135,7 @@ output " "
 #write out current crontab
 crontab -l > mycron
 #echo new cron into cron file
-echo "@reboot /nimiq/start > /nimiq/log.txt" >> mycron
+echo "@reboot $HOME/nimiq > $HOME/nimiq/log.txt" >> mycron
 #install new cron file
 crontab mycron
 rm mycron
@@ -143,4 +143,4 @@ rm mycron
 output " "
 output "Starting miner ./start"
 output " "
-/nimiq/start > /nimiq/log.txt
+$HOME/nimiq/start > $HOME/nimiq/log.txt
