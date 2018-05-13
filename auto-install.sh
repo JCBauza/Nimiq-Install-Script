@@ -139,3 +139,8 @@ echo "@reboot /nimiq/start > /nimiq/log.txt" >> mycron
 #install new cron file
 crontab mycron
 rm mycron
+
+output " "
+output "Starting miner ./start"
+output " "
+/nimiq/start > /nimiq/log.txt
