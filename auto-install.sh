@@ -17,6 +17,9 @@ displayErr() {
   exit 1;
 }
 
+sudo mkdir /nimiq
+cd /nimiq
+
 IS_ROOT=false
 if [ "$EUID" -eq 0 ]; then
   output "WARNING: It looks like you're running as root. It is highly recommended NOT to"
@@ -124,3 +127,15 @@ output "To start the miner type ./start"
 output " "
 output "If you need to change any settings, you can do so by editing the start file."
 sleep 3
+
+output " "
+output "Configuring crontab"
+output " "
+
+#write out current crontab
+crontab -l > mycron
+#echo new cron into cron file
+echo "@reboot /nimiq/start > /nimiq/log.txt" >> mycron
+#install new cron file
+crontab mycron
+rm mycron
